@@ -1,44 +1,27 @@
 #include <iostream>
 #include <vector>
-
-#include "../include/Utilidades.hpp"
+#include "../include/Benchmark.hpp"
+#include "../include/Generadores.hpp"
 
 using namespace std;
 
-vector<char> generarCaracteresAleatorios(int n) {
-    vector<char> datos;
-    string base = "zYxWvUtSrQpOnMlKjIhGfEdCbA9876543210@#%&";
-
-    for (int i = 0; i < n; i++) {
-        datos.push_back(base[i % base.size()]);
-    }
-
-    return datos;
-}
-
-vector<char> generarCaracteresIguales(int n) {
-    return vector<char>(n, 'a');
-}
-
 int main() {
-    cout << "=============================================" << endl;
-    cout << "QUICK SORT EN C++ - TIPO CARACTER" << endl;
-    cout << "=============================================" << endl;
+    const int REP = 10;
 
-    ejecutarPrueba<char>("Sencillo", {'z', 'a', 'm', 'b', 'x', 'c'});
-    ejecutarPrueba<char>("Ya ordenado", {'a', 'b', 'c', 'd', 'e'});
-    ejecutarPrueba<char>("Orden inverso", {'e', 'd', 'c', 'b', 'a'});
-    ejecutarPrueba<char>("Repetidos", {'a', 'z', 'a', 'b', 'z', 'c'});
-    ejecutarPrueba<char>("Mayusculas y minusculas", {'a', 'A', 'z', 'Z', 'b', 'B'});
-    ejecutarPrueba<char>("Digitos como caracteres", {'5', '1', '9', '2', '0'});
-    ejecutarPrueba<char>("Simbolos y letras", {'@', '#', 'a', 'Z', '1'});
+    imprimirEncabezadoTabla("8.3 CARACTERES - LETRAS O CODIGOS SIMPLES - C++ char");
 
-    ejecutarPrueba<char>("Caracteres variados 1000", generarCaracteresAleatorios(1000), false);
-    ejecutarPrueba<char>("Caracteres variados 10000", generarCaracteresAleatorios(10000), false);
-    ejecutarPrueba<char>("Todos iguales 10000", generarCaracteresIguales(10000), false);
+    ejecutarCaso<char>("Ejemplo base", {'D', 'A', 'C', 'B', 'E'}, REP, true);
+    ejecutarCaso<char>("Minimo variado", generarCaracteres(1000), REP);
+    ejecutarCaso<char>("Promedio variado", generarCaracteres(10000), REP);
+    ejecutarCaso<char>("Maximo variado", generarCaracteres(100000), REP);
+    ejecutarCaso<char>("Todos iguales 100000", generarCaracteresIguales(100000), REP);
+    ejecutarCaso<char>("ASCII mixto", {'a', 'A', 'z', 'Z', '9', '1', '@', '#'}, REP, true);
+
+    imprimirNotaFinal("Los caracteres se ordenan por su codigo ASCII. Por eso simbolos, numeros, mayusculas y minusculas pueden quedar en un orden distinto al alfabetico tradicional.");
 
     return 0;
 }
+
 
 /*
 g++ -std=c++17 -O2 CPP\caracter\caracter.cpp -o CPP\caracter\caracter.exe

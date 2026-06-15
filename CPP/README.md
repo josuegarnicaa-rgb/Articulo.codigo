@@ -1,40 +1,53 @@
-# Implementación de Quick Sort en C++
+# Quick Sort en C++ - Benchmark completo
 
-## 1. Planteamiento del problema
+Esta carpeta contiene la parte de C++ para el articulo de comparacion de Quick Sort en C++, Rust y Haskell.
 
-El problema consiste en implementar el algoritmo **Quick Sort** en el lenguaje de programación **C++**, aplicándolo a diferentes tipos de datos para demostrar la capacidad del lenguaje de trabajar con programación genérica, clases y polimorfismo.
+## Que cumple
 
-Quick Sort es un algoritmo de ordenamiento basado en la técnica **divide y vencerás**. Su funcionamiento consiste en seleccionar un elemento llamado **pivote**, separar los datos en tres grupos: menores, iguales y mayores al pivote, y luego ordenar recursivamente los grupos menores y mayores.
+- Casos por tipo de dato.
+- Cantidades minimas, promedio y maximas: 1.000, 10.000 y 100.000 elementos.
+- 10 repeticiones por caso.
+- Tiempo minimo, maximo y promedio en milisegundos.
+- Memoria estimada en MB.
+- Verificacion de resultado correcto.
+- Casos especiales: repetidos, orden inverso, peor caso aproximado, cadenas, fechas y registros combinados.
 
-El objetivo principal es resolver el mismo problema de ordenamiento para distintos tipos de datos:
+## Tipos incluidos
 
-* Enteros
-* Decimales
-* Cadenas
-* Caracteres
-* Booleanos
-* Prueba combinada con varios tipos
+- Enteros: notas de estudiantes (`int`).
+- Decimales: precios de productos (`double`).
+- Caracteres: letras o codigos simples (`char`).
+- Cadenas: nombres (`string`).
+- Booleanos: verdadero/falso (`bool`).
+- Fechas: formato `YYYY-MM-DD` como `string`.
+- Archivos: tamanios en bytes (`long long`).
+- Relevancia: puntajes decimales entre 0 y 1 (`double`).
+- Tiempos de carrera: segundos (`double`).
+- Registros combinados: `struct Estudiante`.
 
-De esta manera, se demuestra que en C++ se puede reutilizar el mismo algoritmo utilizando `template <typename T>`, evitando repetir la lógica de Quick Sort para cada tipo de dato.
+## Ejecutar todo desde PowerShell
 
-## 2. tipos de datos acepta
+Desde la raiz del repositorio:
 
-El algoritmo acepta cualquier tipo de dato que pueda compararse usando los operadores `<`, `>` y `==`.
+```powershell
+cd "D:\semestre_1-2026\Estructura Y Semantica de lenguajes de programacion\ARTICULO\REPO-GIT\Articulo.codigo"
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\CPP\ejecutar_cpp.ps1
+```
 
-| Tipo de dato | ¿Acepta? | Ejemplo                  |
-| ------------ | -------- | ------------------------ |
-| `int`        | Sí       | `8 3 1 7 0`              |
-| `double`     | Sí       | `2.5 1.1 8.7`            |
-| `string`     | Sí       | `"rust" "cpp" "haskell"` |
-| `char`       | Sí       | `'z' 'a' 'm'`            |
-| `bool`       | Sí       | `true false true`        |
+## Compilar un archivo manualmente
 
-No acepta directamente tipos personalizados si no tienen definidos los operadores de comparación.
+Ejemplo con enteros:
 
-## 3. Cómo ejecutar desde la terminal
+```powershell
+g++ -std=c++17 -O2 -Wno-stringop-overflow CPP\entero\entero.cpp -o CPP\entero\entero.exe
+.\CPP\entero\entero.exe
+```
 
-Primero se debe abrir una terminal en la raíz del proyecto:
+## Nota sobre memoria
 
-Compilar:
+La memoria mostrada es una estimacion de los datos utilizados por el vector original y el resultado ordenado. No representa toda la memoria real del proceso del sistema operativo.
 
-    cd "D:...\Articulo.codigo"
+## Nota sobre tiempos
+
+Los tiempos pueden variar entre ejecuciones por procesos del sistema, carga de CPU y configuracion del equipo. Por eso se ejecuta cada caso 10 veces y se registra minimo, maximo y promedio.

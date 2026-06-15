@@ -1,79 +1,80 @@
-/*
-    Prueba combinada de Quick Sort en C++.
-    Ejecuta enteros, decimales, cadenas, caracteres y booleanos
-    en una sola ejecucion y mide un solo tiempo total.
-*/
-
 #include <iostream>
-#include <vector>
 #include <string>
-#include <chrono>
-#include <iomanip>
-
-#include "../include/QuickSort.hpp"
-#include "../include/Utilidades.hpp"
+#include <vector>
+#include "../include/Benchmark.hpp"
+#include "../include/Modelos.hpp"
 
 using namespace std;
-using namespace chrono;
 
-template <typename T>
-vector<T> ordenarDatos(const vector<T>& datos) {
-    QuickSort<T> quickSort;
-    return quickSort.ordenar(datos);
+// Estimacion especifica para registros con strings.
+double memoriaEstimadaEstudiantesMB(const vector<Estudiante>& datos) {
+    const double MB = 1024.0 * 1024.0;
+    size_t total = 0;
+
+    for (const Estudiante& e : datos) {
+        total += sizeof(Estudiante);
+        total += e.nombre.capacity() + 1;
+        total += e.fecha.capacity() + 1;
+    }
+
+    return (total * 2.0) / MB;
+}
+
+template <typename Compare>
+void ejecutarCasoEstudiante(const string& caso, const vector<Estudiante>& datos, int repeticiones, Compare comp, bool mostrarEjemplo = false) {
+    ResultadoBenchmark r = medirQuickSort(datos, repeticiones, comp);
+    r.memoriaMB = memoriaEstimadaEstudiantesMB(datos);
+    imprimirFila(caso, datos.size(), r);
+
+    if (mostrarEjemplo) {
+        QuickSort<Estudiante> quickSort;
+        vector<Estudiante> ordenados = quickSort.ordenar(datos, comp);
+
+        cout << "   Original: ";
+        imprimirVectorLimitado(datos, 3);
+        cout << endl;
+
+        cout << "   Ordenado: ";
+        imprimirVectorLimitado(ordenados, 3);
+        cout << endl;
+    }
 }
 
 int main() {
-    vector<int> enteros = {8, 3, 1, 7, 0, 10, 2, -5, 1000000, -1000000};
-    vector<double> decimales = {2.5, 1.1, 8.7, 3.3, 0.5, -4.2, 1000000.5, -999999.9};
-    vector<string> cadenas = {"rust", "cpp", "haskell", "python", "java", "Rust", "Cpp"};
-    vector<char> caracteres = {'z', 'a', 'm', 'b', 'x', 'c', 'A', 'Z', '1', '@'};
-    vector<bool> booleanos = {true, false, true, false, true, false};
+    const int REP = 10;
 
-    cout << "=============================================" << endl;
-    cout << "PRUEBA COMBINADA DE QUICK SORT EN C++" << endl;
-    cout << "=============================================" << endl;
+    imprimirEncabezadoTabla("8.10 REGISTROS COMBINADOS - struct Estudiante - C++");
 
-    auto inicioTotal = high_resolution_clock::now();
+    vector<Estudiante> ejemplo = {
+        {"Carlos", 85, 80.5, 'B', true, "2026-06-10"},
+        {"Ana", 95, 91.2, 'A', true, "2026-05-20"},
+        {"Pedro", 60, 65.8, 'C', false, "2026-04-15"}
+    };
 
-    vector<int> enterosOrdenados = ordenarDatos(enteros);
-    vector<double> decimalesOrdenados = ordenarDatos(decimales);
-    vector<string> cadenasOrdenadas = ordenarDatos(cadenas);
-    vector<char> caracteresOrdenados = ordenarDatos(caracteres);
-    vector<bool> booleanosOrdenados = ordenarDatos(booleanos);
+    auto porNombre = [](const Estudiante& a, const Estudiante& b) { return a.nombre < b.nombre; };
+    auto porNota = [](const Estudiante& a, const Estudiante& b) { return a.nota < b.nota; };
+    auto porPromedio = [](const Estudiante& a, const Estudiante& b) { return a.promedio < b.promedio; };
+    auto porParalelo = [](const Estudiante& a, const Estudiante& b) { return a.paralelo < b.paralelo; };
+    auto porAprobado = [](const Estudiante& a, const Estudiante& b) { return a.aprobado < b.aprobado; };
+    auto porFecha = [](const Estudiante& a, const Estudiante& b) { return a.fecha < b.fecha; };
 
-    auto finTotal = high_resolution_clock::now();
+    ejecutarCasoEstudiante("Ejemplo por nombre", ejemplo, REP, porNombre, true);
 
-    double tiempoTotalMs = duration<double, milli>(finTotal - inicioTotal).count();
+    vector<Estudiante> datos1000 = generarEstudiantes(1000);
+    vector<Estudiante> datos10000 = generarEstudiantes(10000);
+    vector<Estudiante> datos100000 = generarEstudiantes(100000);
 
-    cout << "\nEnteros originales: ";
-    imprimirVectorLimitado(enteros);
-    cout << "\nEnteros ordenados: ";
-    imprimirVectorLimitado(enterosOrdenados);
+    ejecutarCasoEstudiante("Minimo por nombre", datos1000, REP, porNombre);
+    ejecutarCasoEstudiante("Promedio por nombre", datos10000, REP, porNombre);
+    ejecutarCasoEstudiante("Maximo por nombre", datos100000, REP, porNombre);
 
-    cout << "\n\nDecimales originales: ";
-    imprimirVectorLimitado(decimales);
-    cout << "\nDecimales ordenados: ";
-    imprimirVectorLimitado(decimalesOrdenados);
+    ejecutarCasoEstudiante("Maximo por nota", datos100000, REP, porNota);
+    ejecutarCasoEstudiante("Maximo por promedio", datos100000, REP, porPromedio);
+    ejecutarCasoEstudiante("Maximo por paralelo", datos100000, REP, porParalelo);
+    ejecutarCasoEstudiante("Maximo por aprobado", datos100000, REP, porAprobado);
+    ejecutarCasoEstudiante("Maximo por fecha", datos100000, REP, porFecha);
 
-    cout << "\n\nCadenas originales: ";
-    imprimirVectorLimitado(cadenas);
-    cout << "\nCadenas ordenadas: ";
-    imprimirVectorLimitado(cadenasOrdenadas);
-
-    cout << "\n\nCaracteres originales: ";
-    imprimirVectorLimitado(caracteres);
-    cout << "\nCaracteres ordenados: ";
-    imprimirVectorLimitado(caracteresOrdenados);
-
-    cout << "\n\nBooleanos originales: ";
-    imprimirVectorLimitado(booleanos);
-    cout << "\nBooleanos ordenados: ";
-    imprimirVectorLimitado(booleanosOrdenados);
-
-    cout << "\n\n=============================================" << endl;
-    cout << fixed << setprecision(3);
-    cout << "Tiempo total combinado: " << tiempoTotalMs << " ms" << endl;
-    cout << "=============================================" << endl;
+    imprimirNotaFinal("El registro combinado usa struct y permite ordenar por diferentes campos. Este caso aumenta la longitud del codigo y la memoria por usar strings y varios atributos.");
 
     return 0;
 }

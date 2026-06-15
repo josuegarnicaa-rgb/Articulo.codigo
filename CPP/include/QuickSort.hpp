@@ -1,40 +1,65 @@
 #ifndef QUICKSORT_HPP
 #define QUICKSORT_HPP
 
+#include <algorithm>
+#include <functional>
 #include <vector>
+
+/*
+    QuickSort generico para C++.
+    - Usa templates para ordenar diferentes tipos de datos.
+    - Trabaja sobre una copia del vector original para no modificar la entrada.
+    - Permite comparar tipos simples y tambien structs mediante comparadores.
+*/
 
 template <typename T>
 class QuickSort {
 public:
-    std::vector<T> ordenar(const std::vector<T>& lista) {
-        if (lista.size() <= 1) {
-            return lista;
+    std::vector<T> ordenar(const std::vector<T>& lista) const {
+        return ordenar(lista, std::less<T>());
+    }
+
+    template <typename Compare>
+    std::vector<T> ordenar(const std::vector<T>& lista, Compare comp) const {
+        std::vector<T> resultado = lista;
+
+        if (resultado.size() > 1) {
+            quickSort(resultado, 0, static_cast<int>(resultado.size()) - 1, comp);
         }
 
-        T pivote = lista[lista.size() / 2];
+        return resultado;
+    }
 
-        std::vector<T> menores;
-        std::vector<T> iguales;
-        std::vector<T> mayores;
+private:
+    template <typename Compare>
+    void quickSort(std::vector<T>& datos, int izquierda, int derecha, Compare comp) const {
+        int i = izquierda;
+        int j = derecha;
+        T pivote = datos[izquierda + (derecha - izquierda) / 2];
 
-        for (T elemento : lista) {
-            if (elemento < pivote) {
-                menores.push_back(elemento);
-            } else if (elemento == pivote) {
-                iguales.push_back(elemento);
-            } else {
-                mayores.push_back(elemento);
+        while (i <= j) {
+            while (comp(datos[i], pivote)) {
+                i++;
+            }
+
+            while (comp(pivote, datos[j])) {
+                j--;
+            }
+
+            if (i <= j) {
+                std::iter_swap(datos.begin() + i, datos.begin() + j);
+                i++;
+                j--;
             }
         }
 
-        std::vector<T> resultado = ordenar(menores);
+        if (izquierda < j) {
+            quickSort(datos, izquierda, j, comp);
+        }
 
-        resultado.insert(resultado.end(), iguales.begin(), iguales.end());
-
-        std::vector<T> mayoresOrdenados = ordenar(mayores);
-        resultado.insert(resultado.end(), mayoresOrdenados.begin(), mayoresOrdenados.end());
-
-        return resultado;
+        if (i < derecha) {
+            quickSort(datos, i, derecha, comp);
+        }
     }
 };
 
