@@ -1,0 +1,23 @@
+====================================================================================================================
+PRUEBAS DE QUICKSORT - C++ - LECTURA DESDE ARCHIVOS TXT
+====================================================================================================================
+Archivo                 Tipo            Cantidad     Rep     Min(ms)     Max(ms)    Prom(ms)     Mem(MB)    Correcto
+--------------------------------------------------------------------------------------------------------------------
+enteros_100mil.txt      Enteros           100000       5       5.527       9.803       8.088       0.381          SI
+enteros_500mil.txt      Enteros           500000       5      87.336     135.530     108.569       1.907          SI
+enteros_1millon.txt     Enteros          1000000       3     163.597     208.425     190.516       3.815          SI
+decimales_100mil.txt    Decimales         100000       5       9.508      10.382       9.743       0.763          SI
+decimales_500mil.txt    Decimales         500000       5      57.683     171.006      99.141       3.815          SI
+decimales_1millon.txt   Decimales        1000000       3     195.481     228.929     211.939       7.629          SI
+cadenas_100mil.txt      Cadenas           100000       5      90.806     216.567     128.212       3.767          SI
+cadenas_500mil.txt      Cadenas           500000       5     600.687     741.852     651.802      19.310          SI
+cadenas_1millon.txt     Cadenas          1000000       3    1225.469    1550.541    1372.412      38.625          SI
+booleanos_100mil.txt    Booleanos         100000       5       0.565       1.798       0.831       0.381          SI
+booleanos_500mil.txt    Booleanos         500000       5       3.966       9.237       6.699       1.907          SI
+booleanos_1millon.txt   Booleanos        1000000       3       8.585      10.191       9.539       3.815          SI
+fechas_100mil.txt       Fechas            100000       5      55.854     115.635      83.431       4.005          SI
+fechas_500mil.txt       Fechas            500000       5     441.052     611.692     533.442      20.027          SI
+fechas_1millon.txt      Fechas           1000000       3     798.368     897.886     852.827      40.054          SI
+
+Nota: Mem(MB) es una estimacion del espacio ocupado por los datos cargados en memoria.
+La medicion de tiempo considera el ordenamiento, no la lectura del archivo.

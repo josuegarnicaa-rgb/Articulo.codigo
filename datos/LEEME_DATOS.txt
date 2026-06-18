@@ -1,0 +1,17 @@
+Los archivos se leen separando valores por espacios o saltos de linea.
+Cada tipo tiene 100mil, 500mil y 1millon de datos.
+- booleanos_100mil.txt
+- booleanos_1millon.txt
+- booleanos_500mil.txt
+- cadenas_100mil.txt
+- cadenas_1millon.txt
+- cadenas_500mil.txt
+- decimales_100mil.txt
+- decimales_1millon.txt
+- decimales_500mil.txt
+- enteros_100mil.txt
+- enteros_1millon.txt
+- enteros_500mil.txt
+- fechas_100mil.txt
+- fechas_1millon.txt
+- fechas_500mil.txt
