@@ -1,0 +1,214 @@
+   0.053641700s  INFO prepare_target{force=false package_id=quicksort_rust v0.1.0 (C:\Users\USUARIO\Documents\SEMANTICA\ARTUCULO 2026\git.articulo\Articulo.codigo\quicksort_rust) target="quicksort_rust"}: cargo::core::compiler::fingerprint: fingerprint error for quicksort_rust v0.1.0 (C:\Users\USUARIO\Documents\SEMANTICA\ARTUCULO 2026\git.articulo\Articulo.codigo\quicksort_rust)/Check { test: false }/TargetInner { name: "quicksort_rust", doc: true, ..: with_path("C:\\Users\\USUARIO\\Documents\\SEMANTICA\\ARTUCULO 2026\\git.articulo\\Articulo.codigo\\quicksort_rust\\src\\main.rs", Edition2021) }
+   0.053701200s  INFO prepare_target{force=false package_id=quicksort_rust v0.1.0 (C:\Users\USUARIO\Documents\SEMANTICA\ARTUCULO 2026\git.articulo\Articulo.codigo\quicksort_rust) target="quicksort_rust"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\USUARIO\Documents\SEMANTICA\ARTUCULO 2026\git.articulo\Articulo.codigo\quicksort_rust\target\debug\.fingerprint\quicksort_rust-f51aff042d48d0e0\bin-quicksort_rust`
+
+Caused by:
+    El sistema no puede encontrar el archivo especificado. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_libgit2_prerelease
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: git_midx_writer_dump
+  17: git_filter_source_repo
+  18: git_midx_writer_dump
+  19: BaseThreadInitThunk
+  20: RtlUserThreadStart
+   0.065955400s  INFO prepare_target{force=false package_id=chrono v0.4.45 target="chrono"}: cargo::core::compiler::fingerprint: fingerprint error for chrono v0.4.45/Check { test: false }/TargetInner { ..: lib_target("chrono", ["lib"], "C:\\Users\\USUARIO\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\chrono-0.4.45\\src\\lib.rs", Edition2021) }
+   0.066006800s  INFO prepare_target{force=false package_id=chrono v0.4.45 target="chrono"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\USUARIO\Documents\SEMANTICA\ARTUCULO 2026\git.articulo\Articulo.codigo\quicksort_rust\target\debug\.fingerprint\chrono-5def6f1b39563dc5\lib-chrono`
+
+Caused by:
+    El sistema no puede encontrar el archivo especificado. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_filter_source_repo
+  12: git_libgit2_prerelease
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: git_midx_writer_dump
+  18: git_filter_source_repo
+  19: git_midx_writer_dump
+  20: BaseThreadInitThunk
+  21: RtlUserThreadStart
+   0.068289700s  INFO prepare_target{force=false package_id=comfy-table v7.2.2 target="comfy_table"}: cargo::core::compiler::fingerprint: fingerprint error for comfy-table v7.2.2/Check { test: false }/TargetInner { ..: lib_target("comfy_table", ["lib"], "C:\\Users\\USUARIO\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\comfy-table-7.2.2\\src\\lib.rs", Edition2024) }
+   0.068323800s  INFO prepare_target{force=false package_id=comfy-table v7.2.2 target="comfy_table"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\USUARIO\Documents\SEMANTICA\ARTUCULO 2026\git.articulo\Articulo.codigo\quicksort_rust\target\debug\.fingerprint\comfy-table-ab209a83dd27b54e\lib-comfy_table`
+
+Caused by:
+    El sistema no puede encontrar el archivo especificado. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_filter_source_repo
+  12: git_libgit2_prerelease
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: git_midx_writer_dump
+  18: git_filter_source_repo
+  19: git_midx_writer_dump
+  20: BaseThreadInitThunk
+  21: RtlUserThreadStart
+   0.068967500s  INFO prepare_target{force=false package_id=crossterm v0.29.0 target="crossterm"}: cargo::core::compiler::fingerprint: fingerprint error for crossterm v0.29.0/Check { test: false }/TargetInner { ..: lib_target("crossterm", ["lib"], "C:\\Users\\USUARIO\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\crossterm-0.29.0\\src\\lib.rs", Edition2021) }
+   0.068991000s  INFO prepare_target{force=false package_id=crossterm v0.29.0 target="crossterm"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\USUARIO\Documents\SEMANTICA\ARTUCULO 2026\git.articulo\Articulo.codigo\quicksort_rust\target\debug\.fingerprint\crossterm-c018f1620f310a45\lib-crossterm`
+
+Caused by:
+    El sistema no puede encontrar el archivo especificado. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_filter_source_repo
+  12: git_filter_source_repo
+  13: git_libgit2_prerelease
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: git_midx_writer_dump
+  19: git_filter_source_repo
+  20: git_midx_writer_dump
+  21: BaseThreadInitThunk
+  22: RtlUserThreadStart
+   0.070049200s  INFO prepare_target{force=false package_id=crossterm_winapi v0.9.1 target="crossterm_winapi"}: cargo::core::compiler::fingerprint: fingerprint error for crossterm_winapi v0.9.1/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("crossterm_winapi", ["lib"], "C:\\Users\\USUARIO\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\crossterm_winapi-0.9.1\\src\\lib.rs", Edition2018) }
+   0.070091900s  INFO prepare_target{force=false package_id=crossterm_winapi v0.9.1 target="crossterm_winapi"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\USUARIO\Documents\SEMANTICA\ARTUCULO 2026\git.articulo\Articulo.codigo\quicksort_rust\target\debug\.fingerprint\crossterm_winapi-4f89c28328566487\lib-crossterm_winapi`
+
+Caused by:
+    El sistema no puede encontrar el archivo especificado. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_filter_source_repo
+  12: git_filter_source_repo
+  13: git_filter_source_repo
+  14: git_libgit2_prerelease
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: git_midx_writer_dump
+  20: git_filter_source_repo
+  21: git_midx_writer_dump
+  22: BaseThreadInitThunk
+  23: RtlUserThreadStart
+   0.070931300s  INFO prepare_target{force=false package_id=winapi v0.3.9 target="winapi"}: cargo::core::compiler::fingerprint: fingerprint error for winapi v0.3.9/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("winapi", ["lib"], "C:\\Users\\USUARIO\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\winapi-0.3.9\\src\\lib.rs", Edition2015) }
+   0.070973600s  INFO prepare_target{force=false package_id=winapi v0.3.9 target="winapi"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\USUARIO\Documents\SEMANTICA\ARTUCULO 2026\git.articulo\Articulo.codigo\quicksort_rust\target\debug\.fingerprint\winapi-8cfe4ceed09ee040\lib-winapi`
+
+Caused by:
+    El sistema no puede encontrar el archivo especificado. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_filter_source_repo
+  12: git_filter_source_repo
+  13: git_filter_source_repo
+  14: git_filter_source_repo
+  15: git_libgit2_prerelease
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: git_midx_writer_dump
+  21: git_filter_source_repo
+  22: git_midx_writer_dump
+  23: BaseThreadInitThunk
+  24: RtlUserThreadStart
+   0.076559300s  INFO prepare_target{force=false package_id=quicksort_rust v0.1.0 (C:\Users\USUARIO\Documents\SEMANTICA\ARTUCULO 2026\git.articulo\Articulo.codigo\quicksort_rust) target="quicksort_rust"}: cargo::core::compiler::fingerprint: fingerprint error for quicksort_rust v0.1.0 (C:\Users\USUARIO\Documents\SEMANTICA\ARTUCULO 2026\git.articulo\Articulo.codigo\quicksort_rust)/Check { test: true }/TargetInner { name: "quicksort_rust", doc: true, ..: with_path("C:\\Users\\USUARIO\\Documents\\SEMANTICA\\ARTUCULO 2026\\git.articulo\\Articulo.codigo\\quicksort_rust\\src\\main.rs", Edition2021) }
+   0.076594200s  INFO prepare_target{force=false package_id=quicksort_rust v0.1.0 (C:\Users\USUARIO\Documents\SEMANTICA\ARTUCULO 2026\git.articulo\Articulo.codigo\quicksort_rust) target="quicksort_rust"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\USUARIO\Documents\SEMANTICA\ARTUCULO 2026\git.articulo\Articulo.codigo\quicksort_rust\target\debug\.fingerprint\quicksort_rust-9695c3fd59f0735e\test-bin-quicksort_rust`
+
+Caused by:
+    El sistema no puede encontrar el archivo especificado. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_libgit2_prerelease
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: git_midx_writer_dump
+  17: git_filter_source_repo
+  18: git_midx_writer_dump
+  19: BaseThreadInitThunk
+  20: RtlUserThreadStart
+    Checking winapi v0.3.9
+    Checking chrono v0.4.45
+    Checking crossterm_winapi v0.9.1
+    Checking crossterm v0.29.0
+    Checking comfy-table v7.2.2
+    Checking quicksort_rust v0.1.0 (C:\Users\USUARIO\Documents\SEMANTICA\ARTUCULO 2026\git.articulo\Articulo.codigo\quicksort_rust)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.16s
