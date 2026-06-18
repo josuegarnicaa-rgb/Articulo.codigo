@@ -1,8 +1,0 @@
-[package]
-name = "quicksort_rust"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-comfy-table = "7"
-chrono = "0.4"
