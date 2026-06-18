@@ -1,6 +1,6 @@
 Texto sugerido para la metodología del artículo:
 
-Para realizar las pruebas de rendimiento se utilizaron conjuntos de datos almacenados en archivos de texto plano. Cada archivo contiene valores separados por saltos de línea, los cuales fueron leídos por el programa en C++ y posteriormente cargados en una estructura de datos tipo vector. Se utilizaron cinco tipos de datos: enteros, decimales, cadenas, booleanos y fechas. Para cada tipo se trabajó con tres tamaños de entrada: 100.000, 500.000 y 1.000.000 de elementos.
+Para realizar las pruebas de rendimiento se utilizaron conjuntos de datos almacenados en archivos de texto plano. Cada archivo contiene valores separados por saltos de línea, los cuales fueron leídos por el programa en C++ y posteriormente cargados en una estructura de datos tipo vector. Se utilizaron cinco tipos de datos: enteros, decimales, cadenas, booleanos y fechas. Para cada tipo se trabajó con tres tamaños de entrada: 10.000,100.000 y 500.000 de elementos.
 
 La medición del tiempo se realizó únicamente sobre el proceso de ordenamiento, excluyendo el tiempo de lectura del archivo. Para ello, los datos fueron cargados una sola vez y, en cada repetición, se realizó una copia del vector original antes de aplicar el algoritmo Quicksort. Esto permitió ejecutar varias mediciones sobre el mismo conjunto de datos sin alterar la entrada original.
 
