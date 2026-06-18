@@ -6,21 +6,71 @@ $RESULTADOS = Join-Path $ROOT "resultados_globales"
 New-Item -ItemType Directory -Force -Path $RESULTADOS | Out-Null
 
 $resumenCsv = Join-Path $RESULTADOS "resumen_general.csv"
-"Lenguaje,Estado,Detalle,Tiempo_total_ms" | Out-File -Encoding UTF8 $resumenCsv
+$codigosCsv = Join-Path $RESULTADOS "codigos_encontrados.csv"
+$csvHaskell = Join-Path $RESULTADOS "haskell_tiempos.csv"
+
+$tablaResumen = @()
+$tablaCodigos = @()
+$tablaHaskell = @()
 
 function Existe-Comando($cmd) {
     return [bool](Get-Command $cmd -ErrorAction SilentlyContinue)
 }
 
+function Ruta-Relativa($rutaCompleta) {
+    return $rutaCompleta.Replace($ROOT + "\", "")
+}
+
 function Agregar-Resumen($lenguaje, $estado, $detalle, $tiempo) {
-    $linea = "$lenguaje,$estado,$detalle,$tiempo"
-    Add-Content -Encoding UTF8 -Path $resumenCsv -Value $linea
+    $script:tablaResumen += [PSCustomObject]@{
+        Lenguaje        = $lenguaje
+        Estado          = $estado
+        Detalle         = $detalle
+        Tiempo_total_ms = $tiempo
+    }
+}
+
+function Agregar-Codigo($lenguaje, $archivo, $ruta) {
+    $script:tablaCodigos += [PSCustomObject]@{
+        Lenguaje = $lenguaje
+        Archivo  = $archivo
+        Ruta     = Ruta-Relativa $ruta
+    }
+}
+
+function Registrar-Codigos {
+    $rutaRust = Join-Path $ROOT "RUST"
+    $rutaCpp = Join-Path $ROOT "C++"
+    $rutaHaskell = Join-Path $ROOT "HASKELL"
+
+    if (Test-Path $rutaRust) {
+        $codigosRust = @(Get-ChildItem -Path $rutaRust -Recurse -Filter "*.rs" -ErrorAction SilentlyContinue)
+        foreach ($codigo in $codigosRust) {
+            Agregar-Codigo "Rust" $codigo.Name $codigo.FullName
+        }
+    }
+
+    if (Test-Path $rutaCpp) {
+        $codigosCpp = @(Get-ChildItem -Path $rutaCpp -Recurse -Include "*.cpp", "*.h", "*.hpp" -ErrorAction SilentlyContinue)
+        foreach ($codigo in $codigosCpp) {
+            Agregar-Codigo "C++" $codigo.Name $codigo.FullName
+        }
+    }
+
+    if (Test-Path $rutaHaskell) {
+        $codigosHs = @(Get-ChildItem -Path $rutaHaskell -Recurse -Filter "*.hs" -ErrorAction SilentlyContinue)
+        foreach ($codigo in $codigosHs) {
+            Agregar-Codigo "Haskell" $codigo.Name $codigo.FullName
+        }
+    }
 }
 
 Write-Host "------------------------------"
 Write-Host " EJECUCION GENERAL - QUICKSORT"
 Write-Host " Rust + C++ + Haskell"
 Write-Host "------------------------------"
+
+Registrar-Codigos
 
 # ------------------------------
 # 1. RUST
@@ -39,33 +89,53 @@ elseif (!(Existe-Comando "cargo")) {
     Agregar-Resumen "Rust" "OMITIDO" "No se encontro cargo" "0"
 }
 else {
+    $entroRust = $false
+
     try {
         Push-Location $rutaRust
+        $entroRust = $true
 
         if (Test-Path "Cargo.toml") {
             Write-Host "[1] COMPILANDO RUST..."
             cargo build --release 2>&1 | Tee-Object -FilePath (Join-Path $RESULTADOS "rust_build.log")
 
             Write-Host "`n[1] EJECUTANDO RUST..."
-            $tiempoRust = Measure-Command {
-                cargo run --release -- 3 2>&1 | Tee-Object -FilePath (Join-Path $RESULTADOS "rust_salida.txt")
+
+            $rutaRelease = Join-Path $rutaRust "target\release"
+            $exeRust = Get-ChildItem -Path $rutaRelease -Filter "*.exe" -File |
+                Sort-Object LastWriteTime -Descending |
+                Select-Object -First 1
+
+            if ($null -eq $exeRust) {
+                Write-Host "No se encontro ejecutable Rust. Se ejecutara con cargo run."
+                $tiempoRust = Measure-Command {
+                    cargo run --release -- 3 2>&1 | Tee-Object -FilePath (Join-Path $RESULTADOS "rust_salida.txt")
+                }
+                Agregar-Resumen "Rust" "OK" "Ejecutado con cargo run" "$([Math]::Round($tiempoRust.TotalMilliseconds, 3))"
+            }
+            else {
+                $tiempoRust = Measure-Command {
+                    & $exeRust.FullName 3 2>&1 | Tee-Object -FilePath (Join-Path $RESULTADOS "rust_salida.txt")
+                }
+                Agregar-Resumen "Rust" "OK" "Ejecutado desde .exe" "$([Math]::Round($tiempoRust.TotalMilliseconds, 3))"
             }
 
             Write-Host "Rust finalizado en $([Math]::Round($tiempoRust.TotalMilliseconds, 3)) ms"
-            Agregar-Resumen "Rust" "OK" "Ejecutado con cargo" "$([Math]::Round($tiempoRust.TotalMilliseconds, 3))"
         }
         else {
             Write-Host "No se encontro Cargo.toml en RUST. Se omite Rust."
             Agregar-Resumen "Rust" "OMITIDO" "No se encontro Cargo.toml" "0"
         }
-
-        Pop-Location
     }
     catch {
-        Pop-Location
         Write-Host "Error en Rust. Se continua con los demas."
         Write-Host $_
         Agregar-Resumen "Rust" "ERROR" "Fallo al compilar o ejecutar" "0"
+    }
+    finally {
+        if ($entroRust) {
+            Pop-Location
+        }
     }
 }
 
@@ -105,9 +175,11 @@ else {
             Write-Host "[2] COMPILANDO C++..."
             $exeCpp = Join-Path $RESULTADOS "quicksort_cpp.exe"
 
-            g++ -std=c++17 -O2 "$archivoCppPrincipal" -o "$exeCpp" 2>&1 | Tee-Object -FilePath (Join-Path $RESULTADOS "cpp_build.log")
+            g++ -std=c++17 -O2 "$archivoCppPrincipal" -o "$exeCpp" 2>&1 |
+                Tee-Object -FilePath (Join-Path $RESULTADOS "cpp_build.log")
 
             Write-Host "`n[2] EJECUTANDO C++..."
+
             $tiempoCpp = Measure-Command {
                 & $exeCpp 2>&1 | Tee-Object -FilePath (Join-Path $RESULTADOS "cpp_salida.txt")
             }
@@ -130,8 +202,6 @@ else {
 Write-Host "`n[3] VERIFICANDO HASKELL..."
 
 $rutaHaskell = Join-Path $ROOT "HASKELL"
-$csvHaskell = Join-Path $RESULTADOS "haskell_tiempos.csv"
-"Archivo,Tiempo_total_ms" | Out-File -Encoding UTF8 $csvHaskell
 
 if (!(Test-Path $rutaHaskell)) {
     Write-Host "No existe la carpeta HASKELL. Se omite Haskell."
@@ -143,9 +213,9 @@ elseif (!(Existe-Comando "ghc")) {
 }
 else {
     try {
-        $archivosHs = Get-ChildItem -Path $rutaHaskell -Recurse -Filter "*.hs" | Where-Object {
+        $archivosHs = @(Get-ChildItem -Path $rutaHaskell -Recurse -Filter "*.hs" | Where-Object {
             $_.Name -notlike "*test*"
-        }
+        })
 
         if ($archivosHs.Count -eq 0) {
             Write-Host "No se encontraron archivos .hs. Se omite Haskell."
@@ -158,15 +228,23 @@ else {
                     $exeHs = Join-Path $RESULTADOS "$nombreBase`_haskell.exe"
 
                     Write-Host "`nCompilando Haskell: $($archivo.FullName)"
-                    ghc -O2 "$($archivo.FullName)" -o "$exeHs" 2>&1 | Tee-Object -Append -FilePath (Join-Path $RESULTADOS "haskell_build.log")
+
+                    ghc -O2 "$($archivo.FullName)" -o "$exeHs" 2>&1 |
+                        Tee-Object -Append -FilePath (Join-Path $RESULTADOS "haskell_build.log")
 
                     Write-Host "Ejecutando Haskell: $nombreBase"
+
                     $tiempoHs = Measure-Command {
                         & $exeHs 2>&1 | Tee-Object -Append -FilePath (Join-Path $RESULTADOS "haskell_salida.txt")
                     }
 
                     $tiempoFinal = [Math]::Round($tiempoHs.TotalMilliseconds, 3)
-                    Add-Content -Encoding UTF8 -Path $csvHaskell -Value "$($archivo.Name),$tiempoFinal"
+
+                    $tablaHaskell += [PSCustomObject]@{
+                        Archivo         = $archivo.Name
+                        Tiempo_total_ms = $tiempoFinal
+                    }
+
                     Agregar-Resumen "Haskell" "OK" "$($archivo.Name)" "$tiempoFinal"
                 }
                 catch {
@@ -184,10 +262,46 @@ else {
     }
 }
 
+# ------------------------------
+# GUARDAR RESULTADOS
+# ------------------------------
+
+$tablaResumen | Export-Csv -Path $resumenCsv -NoTypeInformation -Encoding UTF8
+$tablaCodigos | Export-Csv -Path $codigosCsv -NoTypeInformation -Encoding UTF8
+
+if ($tablaHaskell.Count -gt 0) {
+    $tablaHaskell | Export-Csv -Path $csvHaskell -NoTypeInformation -Encoding UTF8
+}
+else {
+    "Archivo,Tiempo_total_ms" | Out-File -Encoding UTF8 $csvHaskell
+}
+
+# ------------------------------
+# MOSTRAR TABLAS
+# ------------------------------
+
 Write-Host "`n------------------------------"
 Write-Host " EJECUCION FINALIZADA"
 Write-Host "------------------------------"
-Write-Host "Resultados guardados en:"
-Write-Host $RESULTADOS
-Write-Host "`nResumen general:"
-Write-Host $resumenCsv
+
+Write-Host "`nTABLA DE RESULTADOS:"
+if ($tablaResumen.Count -gt 0) {
+    $tablaResumen | Format-Table -AutoSize
+}
+else {
+    Write-Host "No hay resultados registrados."
+}
+
+Write-Host "`nCODIGOS ENCONTRADOS:"
+if ($tablaCodigos.Count -gt 0) {
+    $tablaCodigos | Format-Table -AutoSize
+}
+else {
+    Write-Host "No se encontraron archivos de codigo."
+}
+
+Write-Host "`nARCHIVOS GENERADOS:"
+Write-Host "Resultados: $RESULTADOS"
+Write-Host "Resumen:    $resumenCsv"
+Write-Host "Codigos:    $codigosCsv"
+Write-Host "Haskell:    $csvHaskell"

@@ -1,0 +1,4 @@
+"Lenguaje","Estado","Detalle","Tiempo_total_ms"
+"Rust","OK","Ejecutado desde .exe","1659.987"
+"C++","OK","Ejecutado con g++","86.54"
+"Haskell","OMITIDO","No se encontro ghc","0"
